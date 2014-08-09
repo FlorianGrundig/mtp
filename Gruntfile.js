@@ -62,7 +62,7 @@ module.exports = function (grunt) {
       },
       injectCss: {
         files: [
-          '<%= yeoman.client %>/{app,components}/**/*.css'
+          '<%= yeoman.client %>/assets/stylesheets/**/*.css'
         ],
         tasks: ['injector:css']
       },
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
       },
       livereload: {
         files: [
-          '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.css',
+          '{.tmp,<%= yeoman.client %>}/assets/stylesheets/**/*.css',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.html',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
           '!{.tmp,<%= yeoman.client %>}{app,components}/**/*.spec.js',
@@ -175,7 +175,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '.tmp/',
-          src: '{,*/}*.css',
+          src: 'assets/stylesheets/**/*.css',
           dest: '.tmp/'
         }]
       }
@@ -230,7 +230,7 @@ module.exports = function (grunt) {
         files: {
           src: [
             '<%= yeoman.dist %>/public/{,*/}*.js',
-            '<%= yeoman.dist %>/public/{,*/}*.css',
+            '<%= yeoman.dist %>/public/assets/stylesheets/**/*.css',
             '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '<%= yeoman.dist %>/public/assets/fonts/*'
           ]
@@ -251,7 +251,7 @@ module.exports = function (grunt) {
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
+      css: ['<%= yeoman.dist %>/public/assets/stylesheets/**/*.css'],
       js: ['<%= yeoman.dist %>/public/{,*/}*.js'],
       options: {
         assetsDirs: [
@@ -372,7 +372,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: '<%= yeoman.client %>',
         dest: '.tmp/',
-        src: ['{app,components}/**/*.css']
+        src: ['assets/**/*.css']
       }
     },
 
@@ -399,7 +399,8 @@ module.exports = function (grunt) {
         'coffee',
         'jade',
         'imagemin',
-        'svgmin'
+        'svgmin',
+        'copy:styles'
       ]
     },
 
@@ -519,7 +520,7 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.client %>/index.html': [
-            '<%= yeoman.client %>/{app,components}/**/*.css'
+            '<%= yeoman.client %>/assets/**/*.css'
           ]
         }
       }
@@ -617,6 +618,18 @@ module.exports = function (grunt) {
       'test:client'
     ]);
   });
+
+    grunt.registerTask('man', [
+        'clean:dist',
+        'concurrent:dist',
+        'injector',
+        'bowerInstall',
+        'autoprefixer',
+        'ngtemplates',
+        'concat',
+        'ngAnnotate',
+        'copy:dist',
+    ]);
 
   grunt.registerTask('build', [
     'clean:dist',

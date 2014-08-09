@@ -67,6 +67,8 @@ Before we start some notes about the desired architecture:
   * don't think about page design/layout it can look 
   * add travis-ci
   
+2. Step-2
+  * move all css files to client/assets/stylesheets and adapt Gruntfile.js
  
  
 
