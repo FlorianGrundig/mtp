@@ -23,7 +23,7 @@ angular.module 'mtpApp'
 
         # Update validity of form fields that match the mongoose errors
         angular.forEach err.errors, (error, field) ->
-          form[field].$setValidity 'mongoose', false
+          form[field].$setValidity 'reject', false
           $scope.errors[field] = error.message
 
   $scope.loginOauth = (provider) ->
