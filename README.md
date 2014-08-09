@@ -60,6 +60,7 @@ Before we start some notes about the desired architecture:
   * build the main application via yeoman with the angular-fullstack generator
   * remove all mongoose stuff, because we'll have a backend layer
   * don't think about page design/layout it can look 
+  * add travis-ci
   
  
  
