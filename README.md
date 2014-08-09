@@ -21,24 +21,29 @@ but that's not that easy as you think.
 I know about 25 little music pieces and even more little exercises. I don't want to start really new exercises while 
 I don't have a teacher. I'm doing this to prevent me from learning it the wrong way (technique) - 
 it's hard to change a learned technique if you got it once...
-So I try to get better with the pieces/exercises I already know - there enough to learn even if you played a piece more than 100 times...
+So I try to get better with the pieces/exercises I already know - there's enough to learn even if you played a piece more than 100 times...
 Also I have to repeat all pieces/exercises every e.g. week to not forget them (I thing it's common at my age :).
 But I don't have time to repeat everything within one training session. So I have to remember what have I trained last session and the session before and so on - THIS IS (AT LEAST FOR ME) NOT POSSIBLE - 
 and that's the problem which should be addressed by the music training planer :)
 
 The music training planer should:
+
 1. be able to 
-  1. let me enter my training pieces 
-    * with expected training time (e.g. this exercise should take about 5 minutes)
-    * with my current (self guessed) progress (e.g. this piece is so easy that I can play it with closed eyes while I'm really drunk)
-    * some kind of priority (e.g. to mark pieces which are not worth to train every day because they're long and boring - no new techniques)
+   1. let me enter my training pieces 
+      * with expected training time (e.g. this exercise should take about 5 minutes)
+      * with my current (self guessed) progress (e.g. this piece is so easy that I can play it with closed eyes while I'm really drunk)
+      * some kind of priority (e.g. to mark pieces which are not worth to train every day because they're long and boring - no new techniques)
+      
   2. let me create a plan for the next training session (useful for the time I'll have a teacher again)
-    * with as few interaction as possible (the teacher should teach me and not waiting for me updating my plan - that is too expensive)
+      * with as few interaction as possible (the teacher should teach me and not waiting for me updating my plan - that is too expensive)
+      
   3. create a adhoc plan depending on my time (e.g. 1/2 hour)
-    * it should be done in a intelligent way to maximize my training effects (e.g. the pieces which I'm not good at more often than easy pieces)
+      * it should be done in a intelligent way to maximize my training effects (e.g. the pieces which I'm not good at more often than easy pieces)
+      
 2. be easy to use
   * I want to have it on my IPad, which I'll put on the piano
   * when I'm training a piece/exercise I want to enter my progress with only a few interactions - the progress should affect the adhoc plan creation I mentioned earlier
+  
 3. control the time
   * I have only 1/2 hour to train, so he should remind me when it's time to go on with the next exercise - therefor I need something like start session/piece/exercise
 
