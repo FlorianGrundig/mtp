@@ -25,3 +25,4 @@ describe 'Controller: MainCtrl', ->
   it 'should attach a list of things to the scope', ->
     $httpBackend.flush()
     expect(scope.awesomeThings.length).toBe 4
+    expect(scope.awesomeThings.length).toBe 4

@@ -69,6 +69,7 @@ Before we start some notes about the desired architecture:
   
 2. Step-2
   * move all css files to client/assets/stylesheets and adapt Gruntfile.js
+  * move all coffe-spec files from client/app into client/test/app
  
  
 

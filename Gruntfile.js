@@ -619,17 +619,7 @@ module.exports = function (grunt) {
     ]);
   });
 
-    grunt.registerTask('man', [
-        'clean:dist',
-        'concurrent:dist',
-        'injector',
-        'bowerInstall',
-        'autoprefixer',
-        'ngtemplates',
-        'concat',
-        'ngAnnotate',
-        'copy:dist',
-    ]);
+
 
   grunt.registerTask('build', [
     'clean:dist',
