@@ -15,17 +15,17 @@ module.exports = function (grunt) {
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
-    injector: 'grunt-asset-injector'
+    injector: 'grunt-asset-injector',
+    less: 'grunt-contrib-less'
   });
+
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
-
   // Define the configuration for all the tasks
   grunt.initConfig({
-
     // Project settings
-    yeoman: {
+   yeoman: {
       // configurable paths
       client: require('./bower.json').appPath || 'client',
       dist: 'dist'
@@ -55,11 +55,18 @@ module.exports = function (grunt) {
       injectJS: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/*.js',
-          '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
-          '!<%= yeoman.client %>/{app,components}/**/*.mock.js',
+          '!<%= yeoman.client %>/test/**/*.spec.js',
+          '!<%= yeoman.client %>/test/**/*.mock.js',
           '!<%= yeoman.client %>/app/app.js'],
         tasks: ['injector:scripts']
       },
+      styles: {
+            files: ['<%= yeoman.client %>/assets/stylesheets/**/*.less'],
+            tasks: ['less:dist'],
+            options: {
+                nospawn: true
+            }
+        },
       injectCss: {
         files: [
           '<%= yeoman.client %>/assets/stylesheets/**/*.css'
@@ -72,8 +79,8 @@ module.exports = function (grunt) {
       },
       jsTest: {
         files: [
-          '<%= yeoman.client %>/{app,components}/**/*.spec.js',
-          '<%= yeoman.client %>/{app,components}/**/*.mock.js'
+          '<%= yeoman.client %>/test/**/*.spec.js',
+          '<%= yeoman.client %>/test/**/*.mock.js'
         ],
         tasks: ['newer:jshint:all', 'karma']
       },
@@ -101,11 +108,12 @@ module.exports = function (grunt) {
       },
       livereload: {
         files: [
+          '{.tmp,<%= yeoman.client %>}/assets/stylesheets/**/*.less',
           '{.tmp,<%= yeoman.client %>}/assets/stylesheets/**/*.css',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.html',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
-          '!{.tmp,<%= yeoman.client %>}{app,components}/**/*.spec.js',
-          '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js',
+          '!{.tmp,<%= yeoman.client %>}/test/**/*.spec.js',
+          '!{.tmp,<%= yeoman.client %>}/test/**/*.mock.js',
           '<%= yeoman.client %>/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         options: {
@@ -247,7 +255,16 @@ module.exports = function (grunt) {
         dest: '<%= yeoman.dist %>/public'
       }
     },
-
+    less: {
+        dist: {
+            options: {
+                cleancss: false
+            },
+            files: {
+                "<%= yeoman.client %>/assets/stylesheets/app.css": "<%= yeoman.client %>/assets/stylesheets/less/app.less"
+            }
+        }
+    },
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
@@ -381,10 +398,12 @@ module.exports = function (grunt) {
       server: [
         'coffee',
         'jade',
+        'less:dist'
       ],
       test: [
         'coffee',
         'jade',
+        'less:dist'
       ],
       debug: {
         tasks: [
@@ -398,9 +417,9 @@ module.exports = function (grunt) {
       dist: [
         'coffee',
         'jade',
+        'less:dist',
         'imagemin',
         'svgmin',
-        'copy:styles'
       ]
     },
 
