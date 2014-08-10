@@ -8,7 +8,7 @@ angular.module 'mtpApp', [
   'ui.bootstrap'
 ]
 .config ($routeProvider, $locationProvider, $httpProvider) ->
-  $routeProvider.otherwise redirectTo: '/' # redirect all requests which can not be mapped to a configured route to root
+  $routeProvider.otherwise redirectTo: '/' # redirect all requests which can not be mapped to a configured route to root (main)
 
   $locationProvider.html5Mode true
   $httpProvider.interceptors.push 'authInterceptor'
