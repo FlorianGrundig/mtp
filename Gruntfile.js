@@ -86,13 +86,13 @@ module.exports = function (grunt) {
       coffee: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/*.{coffee,litcoffee,coffee.md}',
-          '!<%= yeoman.client %>/{app,components}/**/*.spec.{coffee,litcoffee,coffee.md}'
+          '!<%= yeoman.client %>/test/**/*.spec.{coffee,litcoffee,coffee.md}'
         ],
         tasks: ['newer:coffee', 'injector:scripts']
       },
       coffeeTest: {
         files: [
-          '<%= yeoman.client %>/{app,components}/**/*.spec.{coffee,litcoffee,coffee.md}'
+          '<%= yeoman.client %>/test/**/*.spec.{coffee,litcoffee,coffee.md}'
         ],
         tasks: ['karma']
       },
@@ -446,6 +446,7 @@ module.exports = function (grunt) {
     jade: {
       compile: {
         options: {
+          pretty: true,
           data: {
             debug: false
           }
@@ -456,8 +457,13 @@ module.exports = function (grunt) {
           src: [
             '{app,components}/**/*.jade'
           ],
-          dest: '.tmp',
-          ext: '.html'
+        dest: '.tmp',
+        rename  : function (dest, src) {
+            var folder    = src.substring(0, src.lastIndexOf('/'));
+            var filename  = src.substring(src.lastIndexOf('/'), src.length);
+            filename  = filename.substring(0, filename.lastIndexOf('.'));
+            return dest + '/' + folder + filename + '.html';
+        }
         }]
       }
     },
