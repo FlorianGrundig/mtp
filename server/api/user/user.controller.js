@@ -3,6 +3,7 @@
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var User = require('./user.model');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -13,6 +14,7 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
+// TODO real implementation
 //    User.find({}, '-salt -hashedPassword', function (err, users) {
 //        if(err) return res.send(500, err);
 //        res.json(200, users);
@@ -32,24 +34,21 @@ exports.index = function(req, res) {
  * Creates a new user
  */
 exports.create = function (req, res, next) {
-//    var newUser = new User(req.body);
-//    newUser.provider = 'local';
-//    newUser.role = 'user';
-//    newUser.save(function(err, user) {
-//        if (err) return validationError(res, err);
-//        var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
-//        res.json({ token: token });
-//    });
+    console.log('create new user with '+ req.body);
+    var newUser = User.create(req.body);
 
-
-    var token = jwt.sign({_id: user.name }, config.secrets.session, { expiresInMinutes: 60*5 });
-    res.json({ token: token });
+    newUser.save(function(err, user) {
+        if (err) return validationError(res, err);
+        var token = jwt.sign({_id: user.login }, config.secrets.session, { expiresInMinutes: 60*5 });
+        res.json({ token: token });
+    });
 };
 
 /**
  * Get a single user
  */
 exports.show = function (req, res, next) {
+// TODO real implementation
   var userId = req.params.id;
 
 //    User.findById(userId, function (err, user) {
@@ -69,6 +68,7 @@ exports.show = function (req, res, next) {
  * restriction: 'admin'
  */
 exports.destroy = function(req, res) {
+// TODO real implementation
 //    User.findByIdAndRemove(req.params.id, function(err, user) {
 //        if(err) return res.send(500, err);
 //        return res.send(204);
@@ -80,43 +80,35 @@ exports.destroy = function(req, res) {
  * Change a users password
  */
 exports.changePassword = function(req, res, next) {
-  var userId = req.user._id;
+  var userId = req.user.login;
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
-//    User.findById(userId, function (err, user) {
-//        if(user.authenticate(oldPass)) {
-//            user.password = newPass;
-//            user.save(function(err) {
-//                if (err) return validationError(res, err);
-//                res.send(200);
-//            });
-//        } else {
-//            res.send(403);
-//        }
-//    });
-        res.send(200);
+    User.findById(userId, function (err, user) {
+        if(user.authenticate(oldPass)) {
+            user.hashedPassword = user.encryptPassword(newPass);
+            user.save(function(err) {
+                if (err) return validationError(res, err);
+                res.send(200);
+            });
+        } else {
+            res.send(403);
+        }
+    });
 };
 
 /**
  * Get my info
  */
 exports.me = function(req, res, next) {
-  var userId = req.user._id;
-//    User.findOne({
-//        _id: userId
-//    }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
-//        if (err) return next(err);
-//        if (!user) return res.json(401);
-//        res.json(user);
-//    });
-    res.json({
-        _id: 'fooid',
-        name: 'foo' ,
-        email: 'foo@bar.se',
-        role: 'admin',
-        hashedPassword: '234324',
-        provider: 'local'
-
+  var userId = req.user.login;
+    User.findOne({
+        login: userId
+    }, function(err, user) { // don't ever give out the password or salt
+        if (err) return next(err);
+        if (!user) return res.json(401);
+        user.hashedPassword = undefined;
+        user.salt = undefined;
+        res.json(user);
     });
 };
 

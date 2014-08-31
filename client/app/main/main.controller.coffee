@@ -6,7 +6,6 @@ angular.module 'mtpApp'
 
   $http.get('/api/things').success (awesomeThings) ->
     $scope.awesomeThings = awesomeThings
-    
 
   $scope.addThing = ->
     return if $scope.newThing is ''

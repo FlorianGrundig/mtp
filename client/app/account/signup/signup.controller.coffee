@@ -10,12 +10,13 @@ angular.module 'mtpApp'
     if form.$valid
       # Account created, redirect to home
       Auth.createUser
+        login: $scope.user.login
         name: $scope.user.name
         email: $scope.user.email
         password: $scope.user.password
 
       .then ->
-        $location.path '/'
+        $location.path '/home'
 
       .catch (err) ->
         err = err.data

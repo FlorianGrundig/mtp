@@ -7,6 +7,6 @@ angular.module 'mtpApp'
   $scope.users = User.query()
 
   $scope.delete = (user) ->
-    User.remove id: user._id
+    User.remove login: user.login
     angular.forEach $scope.users, (u, i) ->
       $scope.users.splice i, 1 if u is user

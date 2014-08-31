@@ -4,20 +4,22 @@ angular.module 'mtpApp'
 .controller 'LoginCtrl', ($scope, Auth, $location, $window) ->
   $scope.user = {}
   $scope.errors = {}
+
+  $scope.isLoggedIn = ->
+    Auth.isLoggedIn()
+
   $scope.login = (form) ->
     $scope.submitted = true
 
     if form.$valid
       # Logged in, redirect to home
       Auth.login
-        email: $scope.user.email
+        login: $scope.user.login
         password: $scope.user.password
 
       .then ->
-        $location.path '/'
+        $location.path '/home'
 
       .catch (err) ->
         $scope.errors.other = err.message
 
-  $scope.loginOauth = (provider) ->
-    $window.location.href = '/auth/' + provider

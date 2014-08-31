@@ -6,7 +6,7 @@ var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
 var validateJwt = expressJwt({ secret: config.secrets.session });
-
+var User = require('../api/user/user.model');
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
@@ -24,23 +24,24 @@ function isAuthenticated() {
     // Attach user to request
     .use(function(req, res, next) {
           // TODO implement against real backend
-//          User.findById(req.user._id, function (err, user) {
-//              if (err) return next(err);
-//              if (!user) return res.send(401);
-//
-//              req.user = user;
-//              next();
-//          });
-        req.user = {
-            _id: 'fooid',
-            name: 'foo' ,
-            email: 'foo@bar.se',
-            role: 'admin',
-            hashedPassword: '234324',
-            provider: 'local'
+          User.findById(req.user._id, function (err, user) {
+              if (err) return next(err);
+              if (!user) return res.send(401);
 
-        };
-        next();
+              req.user = user;
+              next();
+          });
+//        console.log('isAuthenticated was called...');
+//        req.user = {
+//            _id: 'fooid',
+//            name: 'foo' ,
+//            email: 'foo@bar.se',
+//            role: 'admin',
+//            hashedPassword: '234324',
+//            provider: 'local'
+//
+//        };
+//        next();
     });
 }
 
@@ -74,7 +75,7 @@ function signToken(id) {
  */
 function setTokenCookie(req, res) {
   if (!req.user) return res.json(404, { message: 'Something went wrong, please try again.'});
-  var token = signToken(req.user._id, req.user.role);
+  var token = signToken(req.user.login, req.user.role);
   res.cookie('token', JSON.stringify(token));
   res.redirect('/');
 }

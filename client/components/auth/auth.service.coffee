@@ -14,7 +14,7 @@ angular.module 'mtpApp'
   login: (user, callback) ->
     deferred = $q.defer()
     $http.post '/auth/local',
-      email: user.email
+      login: user.login
       password: user.password
 
     .success (data) ->
@@ -73,7 +73,7 @@ angular.module 'mtpApp'
   ###
   changePassword: (oldPassword, newPassword, callback) ->
     User.changePassword
-      id: currentUser._id
+      id: currentUser.login
     ,
       oldPassword: oldPassword
       newPassword: newPassword

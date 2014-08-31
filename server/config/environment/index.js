@@ -27,7 +27,11 @@ var all = {
   },
 
   // List of user roles
-  userRoles: ['guest', 'user', 'admin']
+  userRoles: ['guest', 'user', 'admin'],
+
+  backendHost: '127.0.0.1',
+  backendPort: 5000
+
 
 };
 
