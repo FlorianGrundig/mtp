@@ -19,15 +19,22 @@ exports.index = function(req, res) {
 //        if(err) return res.send(500, err);
 //        res.json(200, users);
 //    });
-    res.json(200, [{
-        _id: 'fooid',
-        name: 'foo' ,
-        email: 'foo@bar.se',
-        role: 'admin',
-        hashedPassword: '234324',
-        provider: 'local'
 
-    }]);
+    User.find(function (err, users) {
+        if(err) return res.send(500, err);
+        res.json(200, users);
+    });
+
+
+//    res.json(200, [{
+//        _id: 'fooid',
+//        name: 'foo' ,
+//        email: 'foo@bar.se',
+//        role: 'admin',
+//        hashedPassword: '234324',
+//        provider: 'local'
+//
+//    }]);
 };
 
 /**

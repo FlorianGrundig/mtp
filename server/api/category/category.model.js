@@ -5,36 +5,21 @@ var config = require('../../config/environment');
 
 
 
-function User(props) {
+function Category(props) {
     this.login = props.login || '';
-    this.role = props.role || ['user'];
-    this.email = props.email || '';
     this.name = props.name || '';
-    this.salt = props.salt || this.makeSalt();
-    this.provider = 'local';
-    this.hashedPassword = props.hashedPassword || this.encryptPassword(props.password);
+
+    if (props._id){
+        this._id = props._id.$oid;
+    }
 
 }
 
-User.prototype.validate = function () {
+Category.prototype.validate = function () {
     console.log('unimplemented method validate was called...');
 };
 
-User.prototype.encryptPassword = function (password) {
-    if (!password || !this.salt) return '';
-    var salt = new Buffer(this.salt, 'base64');
-    return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
-};
-
-User.prototype.makeSalt = function () {
-    return crypto.randomBytes(16).toString('base64');
-};
-
-User.prototype.authenticate = function (plainText) {
-    return this.encryptPassword(plainText) === this.hashedPassword;
-};
-
-User.prototype.save = function (callback) {
+Category.prototype.save = function (callback) {
     var userString = JSON.stringify(this);
     var headers = {
         'Content-Type': 'application/json',
@@ -43,7 +28,7 @@ User.prototype.save = function (callback) {
     var options = {
         host: config.backendHost,
         port: config.backendPort,
-        path: '/user/save',
+        path: '/category/save',
         method: 'POST',
         headers: headers
     };
@@ -63,7 +48,7 @@ User.prototype.save = function (callback) {
             var resultObject;
             try {
                 resultObject = JSON.parse(responseString);
-                callback(null, new User(resultObject));
+                callback(null, new Category(resultObject));
             } catch (e) {
                 callback(e, null);
             }
@@ -77,11 +62,11 @@ User.prototype.save = function (callback) {
 };
 
 function create(props) {
-    return new User(props);
+    return new Category(props);
 }
 
-function find(callback){
-    var requestBody = JSON.stringify({});
+function find(login, callback){
+    var requestBody = JSON.stringify({login: login});
 
     var headers = {
         'Content-Type': 'application/json',
@@ -90,7 +75,7 @@ function find(callback){
     var options = {
         host: config.backendHost,
         port: config.backendPort,
-        path: '/user/find',
+        path: '/category/find',
         method: 'POST',
         headers: headers
     };
@@ -104,14 +89,14 @@ function find(callback){
         });
 
         res.on('end', function () {
-           var users = [];
+           var categories = [];
             try {
                 var resultObject = JSON.parse(responseString);
                 for (var i = 0; i < resultObject.length; i++){
-                    users.push(new User(resultObject[i]))
+                    categories.push(new Category(resultObject[i]))
                 }
 
-                callback(null, users);
+                callback(null, categories);
             } catch (e) {
                 callback(e, null);
             }

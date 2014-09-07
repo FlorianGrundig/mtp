@@ -1,7 +1,88 @@
 .container
+    h1
+        | Existing Exercises
+
+    h1
+        | Create New Exercise
+
+    div
+        label(for="e_name")
+            | Name
+        input(id="e_name",data-ng-model="exercise.name", type="text")
+
+        label(for="e_category")
+            | Category
+        select(id="e_category",data-ng-model="exercise.category", ng-required=true, ng-options="cat.name for cat in categories")
+        br
+        label(for="e_source")
+            | Source
+        input(id="e_source",data-ng-model="exercise.source", type="text")
+        br
+        div(data-ng-repeat="h in exercise.hints track by $index")
+            label(for="e_hint_{{$index}}")
+                | Hint
+            input(id="e_hint_{{$index}}", type="text", value="{{exercise.hints[$index]}}")
+
+        button(data-ng-click="addHint()")
+            | add hint
+        br
+        label(for="e_level")
+            | Level (1-20)
+        input(id="e_level",data-ng-model="exercise.level", type="number", min=1, max=20, ng-required=true)
+        br
+        label(for="e_duration")
+            | Duration (in minutes) (1-60)
+        input(id="e_duration",data-ng-model="exercise.duration", type="number", min=1, max=60, ng-required=true)
+        br
+        label(for="e_max_experience")
+            | Maximum experience (1-100)
+        input(id="e_max_experience",data-ng-model="exercise.max_experience", type="number", min=1, max=100, ng-required=true)
+        br
+        label(for="e_replay")
+            | Number of replays per training unit (1-20)
+        input(id="e_replay",data-ng-model="exercise.replay", type="number", min=1, max=20, ng-required=true)
+        br
+        label(for="e_times")
+            | Number of times already played (will increase automatically when trained)
+        input(id="e_times",data-ng-model="exercise.training.times", type="number", ng-required=true)
+        br
+        label(for="e_experience")
+            | Experience right now (must be smaller or equal maximum experience)
+        input(id="e_experience",data-ng-model="exercise.training.experience", type="number", ng-required=true)
+
+        br
+        br
+        button(data-ng-click="createExercise()")
+            | Save Exercise
+
+        //name: ''
+        //category: ''
+        //source: ''
+        //hints: []
+        //level: 0
+        //duration: 1
+        //max_experience: 10
+        //replay: 1
+        //training:
+        //times: 0
+        //experience: 0
+
+    h1
+        | Exercise Categories
+    ul
+        li(data-ng-repeat="category in categories")
+            | {{category.name}}
+
+    div
+        input(ng-model="newCategoryName")
+        button(ng-disabled="!!!newCategoryName", ng-click="createNewCategory()")
+            | create new Category
+
+    h1 User Management
+.container
   .row
     .col-sm-12
-      h1 Change Password
+      h2 Change Password
     .col-sm-12
       form.form(name='form', ng-submit='changePassword(form)', novalidate='')
         .form-group

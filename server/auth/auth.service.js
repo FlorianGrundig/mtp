@@ -23,7 +23,6 @@ function isAuthenticated() {
     })
     // Attach user to request
     .use(function(req, res, next) {
-          // TODO implement against real backend
           User.findById(req.user._id, function (err, user) {
               if (err) return next(err);
               if (!user) return res.send(401);
@@ -31,17 +30,6 @@ function isAuthenticated() {
               req.user = user;
               next();
           });
-//        console.log('isAuthenticated was called...');
-//        req.user = {
-//            _id: 'fooid',
-//            name: 'foo' ,
-//            email: 'foo@bar.se',
-//            role: 'admin',
-//            hashedPassword: '234324',
-//            provider: 'local'
-//
-//        };
-//        next();
     });
 }
 
