@@ -1,31 +1,34 @@
 'use strict'
 
 angular.module 'mtpApp'
-.controller 'SettingsCtrl', ($scope, User, Auth, CategoryService) ->
+.controller 'SettingsCtrl', ($scope, User, Auth, CategoryService, ExerciseService) ->
   $scope.errors = {}
 
-  $scope.exercises = []
+  $scope.categories = CategoryService.list()
+  $scope.exercises = ExerciseService.list()
   $scope.exercise =
-    name: ''
-    category: ''
-    source: ''
-    hints: [""]
-    level: 0
-    duration: 1
-    max_experience: 10
-    replay: 1
+    name: 'E1'
+    categories: ['']
+    source: 'any source'
+    hints: ["a hint"]
+    level: 10
+    duration: 3
+    max_experience: 100
+    replay: 3
     training:
       times: 0
-      experience: 0
+      experience: 1
 
 
   $scope.addHint = ->
     $scope.exercise.hints.push("")
 
-  $scope.createExercise = ->
-    'foo'
+  $scope.addCategory = ->
+    $scope.exercise.categories.push("")
 
-  $scope.categories = CategoryService.list()
+  $scope.createExercise = ->
+    ExerciseService.create $scope.exercise
+
 
   $scope.newCategoryName = ''
 

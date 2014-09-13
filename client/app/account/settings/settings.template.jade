@@ -1,6 +1,9 @@
 .container
     h1
         | Existing Exercises
+    ul
+        li(data-ng-repeat="e in exercises")
+            | {{e.name}}
 
     h1
         | Create New Exercise
@@ -9,10 +12,14 @@
         label(for="e_name")
             | Name
         input(id="e_name",data-ng-model="exercise.name", type="text")
-
-        label(for="e_category")
-            | Category
-        select(id="e_category",data-ng-model="exercise.category", ng-required=true, ng-options="cat.name for cat in categories")
+        br
+        div(data-ng-repeat="c in exercise.categories track by $index")
+            label(for="e_category_{{$index}}")
+                | Category
+            select(id="e_category_{{$index}}",data-ng-model="exercise.categories[$index]", ng-required=true, ng-options="cat.name for cat in categories")
+        br
+        button(data-ng-click="addCategory()")
+            | add category
         br
         label(for="e_source")
             | Source
@@ -54,18 +61,6 @@
         br
         button(data-ng-click="createExercise()")
             | Save Exercise
-
-        //name: ''
-        //category: ''
-        //source: ''
-        //hints: []
-        //level: 0
-        //duration: 1
-        //max_experience: 10
-        //replay: 1
-        //training:
-        //times: 0
-        //experience: 0
 
     h1
         | Exercise Categories
