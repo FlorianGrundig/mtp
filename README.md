@@ -49,27 +49,4 @@ The music training planer should:
 
 I think there thousands of improvements but let's start with this :)
 
-Developement
----
-
-I will document all important steps during the development with git tags and some short notes in the following section.
-Please feel free to checkout the interesting step and compare/diff/log it to some other step to see what was done...
-
-Before we start some notes about the desired architecture:
-* web app should contain only a small server part which is handling the login/security and mainly redirects requests to the backend layer
-* web app should be a single page app
-* backend layer should do the business logic part and should be the only one talking to the database
-* backend layer should be reached via http requests (JSON)
-
-1. Step-1
-  * build the main application via yeoman with the angular-fullstack generator
-  * remove all mongoose stuff, because we'll have a backend layer
-  * don't think about page design/layout it can look 
-  * add travis-ci
-  
-2. Step-2
-  * move all css files to client/assets/stylesheets and adapt Gruntfile.js
-  * move all coffe-spec files from client/app into client/test/app
- 
- 
 
