@@ -10,7 +10,6 @@ angular.module 'mtpApp'
     if form.$valid
       # Account created, redirect to home
       Auth.createUser
-        login: $scope.user.login
         name: $scope.user.name
         email: $scope.user.email
         password: $scope.user.password
@@ -24,7 +23,7 @@ angular.module 'mtpApp'
 
         # Update validity of form fields that match the mongoose errors
         angular.forEach err.errors, (error, field) ->
-          form[field].$setValidity 'reject', false
+          form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
 
   $scope.loginOauth = (provider) ->

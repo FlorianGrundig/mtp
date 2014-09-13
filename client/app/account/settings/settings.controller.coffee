@@ -43,6 +43,6 @@ angular.module 'mtpApp'
         $scope.message = 'Password successfully changed.'
 
       .catch ->
-        form.password.$setValidity 'reject', false
+        form.password.$setValidity 'mongoose', false
         $scope.errors.other = 'Incorrect password'
         $scope.message = ''

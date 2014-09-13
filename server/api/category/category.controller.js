@@ -13,7 +13,7 @@ var Category = require('./category.model');
 
 // Get list of categories for current user
 exports.index = function(req, res) {
-    Category.find(req.user.login, function (err, categories) {
+    Category.find({'email': req.user.email}, function (err, categories) {
         if(err) { return handleError(res, err); }
         return res.json(200, categories);
     });
@@ -31,8 +31,8 @@ exports.index = function(req, res) {
 
 // Creates a new thing in the DB.
 exports.create = function(req, res) {
-    var category = Category.create(req.body);
-    category.login = req.user.login;
+    var category = new Category(req.body);
+    category.email = req.user.email;
 
     category.save( function(err) {
         if(err) { return handleError(res, err); }

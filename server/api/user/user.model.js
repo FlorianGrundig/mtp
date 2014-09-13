@@ -1,181 +1,147 @@
 'use strict';
-var http = require('http');
+
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var crypto = require('crypto');
-var config = require('../../config/environment');
+var authTypes = ['github', 'twitter', 'facebook', 'google'];
 
+var UserSchema = new Schema({
+  name: String,
+  email: { type: String, lowercase: true },
+  role: {
+    type: String,
+    default: 'user'
+  },
+  hashedPassword: String,
+  provider: String,
+  salt: String,
+  google: {},
+  github: {}
+});
 
+/**
+ * Virtuals
+ */
+UserSchema
+  .virtual('password')
+  .set(function(password) {
+    this._password = password;
+    this.salt = this.makeSalt();
+    this.hashedPassword = this.encryptPassword(password);
+  })
+  .get(function() {
+    return this._password;
+  });
 
-function User(props) {
-    this.login = props.login || '';
-    this.role = props.role || ['user'];
-    this.email = props.email || '';
-    this.name = props.name || '';
-    this.salt = props.salt || this.makeSalt();
-    this.provider = 'local';
-    this.hashedPassword = props.hashedPassword || this.encryptPassword(props.password);
+// Public profile information
+UserSchema
+  .virtual('profile')
+  .get(function() {
+    return {
+      'name': this.name,
+      'role': this.role
+    };
+  });
 
-}
+// Non-sensitive info we'll be putting in the token
+UserSchema
+  .virtual('token')
+  .get(function() {
+    return {
+      '_id': this._id,
+      'role': this.role
+    };
+  });
 
-User.prototype.validate = function () {
-    console.log('unimplemented method validate was called...');
+/**
+ * Validations
+ */
+
+// Validate empty email
+UserSchema
+  .path('email')
+  .validate(function(email) {
+    if (authTypes.indexOf(this.provider) !== -1) return true;
+    return email.length;
+  }, 'Email cannot be blank');
+
+// Validate empty password
+UserSchema
+  .path('hashedPassword')
+  .validate(function(hashedPassword) {
+    if (authTypes.indexOf(this.provider) !== -1) return true;
+    return hashedPassword.length;
+  }, 'Password cannot be blank');
+
+// Validate email is not taken
+UserSchema
+  .path('email')
+  .validate(function(value, respond) {
+    var self = this;
+    this.constructor.findOne({email: value}, function(err, user) {
+      if(err) throw err;
+      if(user) {
+        if(self.id === user.id) return respond(true);
+        return respond(false);
+      }
+      respond(true);
+    });
+}, 'The specified email address is already in use.');
+
+var validatePresenceOf = function(value) {
+  return value && value.length;
 };
 
-User.prototype.encryptPassword = function (password) {
+/**
+ * Pre-save hook
+ */
+UserSchema
+  .pre('save', function(next) {
+    if (!this.isNew) return next();
+
+    if (!validatePresenceOf(this.hashedPassword) && authTypes.indexOf(this.provider) === -1)
+      next(new Error('Invalid password'));
+    else
+      next();
+  });
+
+/**
+ * Methods
+ */
+UserSchema.methods = {
+  /**
+   * Authenticate - check if the passwords are the same
+   *
+   * @param {String} plainText
+   * @return {Boolean}
+   * @api public
+   */
+  authenticate: function(plainText) {
+    return this.encryptPassword(plainText) === this.hashedPassword;
+  },
+
+  /**
+   * Make salt
+   *
+   * @return {String}
+   * @api public
+   */
+  makeSalt: function() {
+    return crypto.randomBytes(16).toString('base64');
+  },
+
+  /**
+   * Encrypt password
+   *
+   * @param {String} password
+   * @return {String}
+   * @api public
+   */
+  encryptPassword: function(password) {
     if (!password || !this.salt) return '';
     var salt = new Buffer(this.salt, 'base64');
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
+  }
 };
 
-User.prototype.makeSalt = function () {
-    return crypto.randomBytes(16).toString('base64');
-};
-
-User.prototype.authenticate = function (plainText) {
-    return this.encryptPassword(plainText) === this.hashedPassword;
-};
-
-User.prototype.save = function (callback) {
-    var userString = JSON.stringify(this);
-    var headers = {
-        'Content-Type': 'application/json',
-        'Content-Length': userString.length
-    };
-    var options = {
-        host: config.backendHost,
-        port: config.backendPort,
-        path: '/user/save',
-        method: 'POST',
-        headers: headers
-    };
-
-
-    // Setup the request.  The options parameter is
-// the object we defined above.
-    var req = http.request(options, function (response) {
-        response.setEncoding('utf-8');
-
-        var responseString = '';
-        response.on('data', function (data) {
-            responseString += data;
-        });
-
-        response.on('end', function () {
-            var resultObject;
-            try {
-                resultObject = JSON.parse(responseString);
-                callback(null, new User(resultObject));
-            } catch (e) {
-                callback(e, null);
-            }
-        });
-    });
-    req.on('error', function (e) {
-        callback(e, null);
-    });
-    req.write(userString);
-    req.end();
-};
-
-function create(props) {
-    return new User(props);
-}
-
-function find(callback){
-    var requestBody = JSON.stringify({});
-
-    var headers = {
-        'Content-Type': 'application/json',
-        'Content-Length': requestBody.length
-    };
-    var options = {
-        host: config.backendHost,
-        port: config.backendPort,
-        path: '/user/find',
-        method: 'POST',
-        headers: headers
-    };
-    var req = http.request(options, function (res) {
-        res.setEncoding('utf-8');
-
-        var responseString = '';
-
-        res.on('data', function (data) {
-            responseString += data;
-        });
-
-        res.on('end', function () {
-           var users = [];
-            try {
-                var resultObject = JSON.parse(responseString);
-                for (var i = 0; i < resultObject.length; i++){
-                    users.push(new User(resultObject[i]))
-                }
-
-                callback(null, users);
-            } catch (e) {
-                callback(e, null);
-            }
-        });
-    });
-
-    req.on('error', function (e) {
-        callback(e, null);
-    });
-
-
-    req.write(requestBody);
-    req.end();
-}
-
-
-function findById(id,callback){
-    return findOne({login: id},callback)
-}
-
-function findOne(user, callback) {
-    var userString = JSON.stringify(user);
-    var headers = {
-        'Content-Type': 'application/json',
-        'Content-Length': userString.length
-    };
-    var options = {
-        host: config.backendHost,
-        port: config.backendPort,
-        path: '/user/findOne',
-        method: 'POST',
-        headers: headers
-    };
-    var req = http.request(options, function (res) {
-        res.setEncoding('utf-8');
-
-        var responseString = '';
-
-        res.on('data', function (data) {
-            responseString += data;
-        });
-
-        res.on('end', function () {
-            try {
-                var resultObject = JSON.parse(responseString);
-                callback(null, new User(resultObject));
-            } catch (e) {
-                callback(e, null);
-            }
-        });
-    });
-
-    req.on('error', function (e) {
-        callback(e, null);
-    });
-
-    req.write(userString);
-    req.end();
-
-}
-
-module.exports = {
-    find: find,
-    findById: findById,
-    findOne: findOne,
-    create: create
-};
+module.exports = mongoose.model('User', UserSchema);

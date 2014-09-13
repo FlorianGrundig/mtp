@@ -8,13 +8,13 @@ angular.module 'mtpApp', [
   'ui.bootstrap'
 ]
 .config ($routeProvider, $locationProvider, $httpProvider) ->
-  $routeProvider.otherwise redirectTo: '/' # redirect all requests which can not be mapped to a configured route to root (main)
+  $routeProvider.otherwise redirectTo: '/'
 
   $locationProvider.html5Mode true
   $httpProvider.interceptors.push 'authInterceptor'
 
 .factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location) ->
-  # Add authorization token to headers for all outgoing requests
+  # Add authorization token to headers
   request: (config) ->
     config.headers = config.headers or {}
     config.headers.Authorization = 'Bearer ' + $cookieStore.get 'token' if $cookieStore.get 'token'

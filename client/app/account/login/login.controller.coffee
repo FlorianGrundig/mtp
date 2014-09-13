@@ -14,7 +14,7 @@ angular.module 'mtpApp'
     if form.$valid
       # Logged in, redirect to home
       Auth.login
-        login: $scope.user.login
+        email: $scope.user.email
         password: $scope.user.password
 
       .then ->

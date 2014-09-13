@@ -4,12 +4,6 @@
       h1 Sign up
     .col-sm-12
       form.form(name='form', ng-submit='register(form)', novalidate='')
-        .form-group(ng-class='{ "has-success": form.login.$valid && submitted,\
-        "has-error": form.login.$invalid && submitted }')
-          label Login
-          input.form-control(type='text', name='login', ng-model='user.login', required='')
-          p.help-block(ng-show='form.login.$error.required && submitted')
-            | A Login is required
 
         .form-group(ng-class='{ "has-success": form.name.$valid && submitted,\
         "has-error": form.name.$invalid && submitted }')

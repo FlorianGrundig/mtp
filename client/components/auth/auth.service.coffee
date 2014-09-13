@@ -14,7 +14,7 @@ angular.module 'mtpApp'
   login: (user, callback) ->
     deferred = $q.defer()
     $http.post '/auth/local',
-      login: user.login
+      email: user.email
       password: user.password
 
     .success (data) ->
@@ -51,14 +51,14 @@ angular.module 'mtpApp'
   ###
   createUser: (user, callback) ->
     User.save user,
-      (data) ->
-        $cookieStore.put 'token', data.token
-        currentUser = User.get()
-        callback? user
+    (data) ->
+      $cookieStore.put 'token', data.token
+      currentUser = User.get()
+      callback? user
 
-      , (err) =>
-        @logout()
-        callback? err
+    , (err) =>
+      @logout()
+      callback? err
 
     .$promise
 
@@ -73,7 +73,7 @@ angular.module 'mtpApp'
   ###
   changePassword: (oldPassword, newPassword, callback) ->
     User.changePassword
-      id: currentUser.login
+      id: currentUser._id
     ,
       oldPassword: oldPassword
       newPassword: newPassword

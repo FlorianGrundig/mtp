@@ -3,7 +3,7 @@
 angular.module 'mtpApp'
 .factory 'User', ($resource) ->
   $resource '/api/users/:id/:controller',
-    id: '@login'
+    id: '@_id'
   ,
     changePassword:
       method: 'PUT'
