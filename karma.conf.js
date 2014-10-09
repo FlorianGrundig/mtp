@@ -11,7 +11,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'client/bower_components/jquery/dist/jquery.js',
       'client/bower_components/angular/angular.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       'client/bower_components/angular-resource/angular-resource.js',
@@ -20,16 +19,12 @@ module.exports = function(config) {
       'client/bower_components/angular-route/angular-route.js',
       'client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'client/bower_components/lodash/dist/lodash.compat.js',
-      'client/app/app.js',
       'client/app/app.coffee',
-      'client/app/**/*.js',
       'client/app/**/*.coffee',
-      'client/components/**/*.js',
       'client/components/**/*.coffee',
       'client/app/**/*.jade',
       'client/components/**/*.jade',
-      'client/app/**/*.html',
-      'client/components/**/*.html',
+      'client/test/test_utils/**/*.js',
       'client/test/app/**/*.coffee',
       'client/test/app/**/*.js',
     ],
@@ -60,8 +55,9 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
+    reporters: ['dots'],
 
     // Start these browsers, currently available:
     // - Chrome

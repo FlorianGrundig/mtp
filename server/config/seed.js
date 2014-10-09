@@ -17,7 +17,8 @@ User.find({email: 'test@test.com'}).remove(function(){
 }).exec(function(s){
     console.log('s ', s)
 });
-User.find({'email': 'test@test.com'}).remove(function(){
+
+User.find({'email': 'admin@admin.com'}).remove(function(){
     User.create({
         provider: 'local',
         role: 'admin',

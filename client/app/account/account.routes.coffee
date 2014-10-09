@@ -5,7 +5,6 @@ angular.module 'mtpApp'
   $routeProvider
   .when '/login',
     templateUrl: 'app/account/login/login.template.html'
-    controller: 'LoginCtrl'
 
   .when '/signup',
     templateUrl: 'app/account/signup/signup.template.html'
