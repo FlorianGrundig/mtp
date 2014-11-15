@@ -11,7 +11,7 @@ angular.module 'mtpApp'
 angular.module 'mtpApp'
 .factory 'ExerciseService', (Exercise) ->
 
-  create: (prop) ->
+  upsert: (prop) ->
     Exercise.save prop
     ,
     (data) ->

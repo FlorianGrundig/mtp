@@ -6,11 +6,11 @@ angular.module 'mtpApp'
 
   $scope.categories = CategoryService.list()
   $scope.exercises = ExerciseService.list()
-  $scope.exercise =
+  default_new_execise =
     name: 'E1'
     categories: ['']
     source: 'any source'
-    hints: ["a hint"]
+    hints: "a hint"
     level: 10
     duration: 3
     max_experience: 100
@@ -19,15 +19,27 @@ angular.module 'mtpApp'
       times: 0
       experience: 1
 
+  $scope.exercise = angular.copy default_new_execise
 
-  $scope.addHint = ->
-    $scope.exercise.hints.push("")
+
+  matchingCategory = (id) ->
+    for i in [0..$scope.categories.length]
+      return $scope.categories[i] if $scope.categories[i]._id is id
+
+
+  $scope.edit = (exercise) ->
+    cats = []
+    exercise.categories.forEach (id) ->
+      cats.push(matchingCategory(id))
+
+    exercise.categories = cats
+    $scope.exercise = exercise
 
   $scope.addCategory = ->
     $scope.exercise.categories.push("")
 
-  $scope.createExercise = ->
-    ExerciseService.create $scope.exercise
+  $scope.upsertExercise = ->
+    ExerciseService.upsert $scope.exercise
 
 
   $scope.newCategoryName = ''

@@ -9,7 +9,7 @@ var ExerciseSchema = new Schema({
     categories: [String],
     duration: Number,
     source: String,
-    hints: [String],
+    hints: String,
     level: Number,
     max_experience: Number,
     replay: Number,
