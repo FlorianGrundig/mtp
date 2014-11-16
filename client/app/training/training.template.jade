@@ -1,0 +1,34 @@
+
+header#banner.hero-unit
+  .container.training
+    h1 Training
+    div(data-ng-hide="exercise")
+      p Manually training - select your exercise and update your experience.
+      table.exercise-selection
+        tr
+          th Name
+          th Level
+          th Duration
+          th Progress
+          th Times played
+        tr(data-ng-repeat="e in exercises", ng-click="selectExercise(e)", ng-class="{selected: e == exercise}")
+          td {{e.name}}
+          td.right {{e.level}}
+          td {{e.replay}} x {{e.duration}} min
+          td {{getProgress(e)}}
+          td.right {{e.history.length}}
+
+    button(ng-show="exercise", class="abort",ng-click="exercise = undefined") Go Back
+    div.training-exercise(ng-show="exercise")
+      h1 {{exercise.name}}
+      div.exercise-info
+        p Source: {{exercise.source}}
+        p Play: {{exercise.replay}} x {{exercise.duration}} min
+        p {{exercise.hints}}
+      div(id="cal-heatmap")
+
+      slider(floor="0", ceiling="{{exercise.max_experience}}", ng-model="experience")
+      button(class="submit",ng-click="exercise_done(exercise)") I played this exercise one time and I've updated the progress.
+
+
+

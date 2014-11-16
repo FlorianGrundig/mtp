@@ -28,7 +28,7 @@ exports.upsert = function (req, res) {
       exercise_db.name = exercise.name;
       exercise_db.replay = exercise.replay;
       exercise_db.source = exercise.source;
-      exercise_db.training = exercise.training;
+      exercise_db.history = exercise.history;
 
 
       exercise_db.save(function (err) {

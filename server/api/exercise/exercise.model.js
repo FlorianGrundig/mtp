@@ -13,7 +13,7 @@ var ExerciseSchema = new Schema({
     level: Number,
     max_experience: Number,
     replay: Number,
-    training: { times: Number, experience: Number}
+    history: [{date: Date, experience: Number}]
 });
 
 // Validate empty email

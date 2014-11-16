@@ -20,6 +20,11 @@
         br
         button(data-ng-click="addCategory()")
             | add category
+        label(for="e_remove_cat")
+          | remove category with index
+        input(id="e_remove_cat", ng-model="remove_cat_idx")
+        button(ng-click="remove_cat(remove_cat_idx)")
+          | remove category at index (starting by 0)
         br
         label(for="e_source")
             | Source
@@ -40,20 +45,29 @@
         input(id="e_duration",data-ng-model="exercise.duration", type="number", min=1, max=60, ng-required=true)
         br
         label(for="e_max_experience")
-            | Maximum experience (1-100)
-        input(id="e_max_experience",data-ng-model="exercise.max_experience", type="number", min=1, max=100, ng-required=true)
+            | Maximum experience (1-5)
+        input(id="e_max_experience",data-ng-model="exercise.max_experience", type="number", min=1, max=5, ng-required=true)
         br
         label(for="e_replay")
             | Number of replays per training unit (1-20)
         input(id="e_replay",data-ng-model="exercise.replay", type="number", min=1, max=20, ng-required=true)
         br
-        label(for="e_times")
-            | Number of times already played (will increase automatically when trained)
-        input(id="e_times",data-ng-model="exercise.training.times", type="number", ng-required=true)
-        br
-        label(for="e_experience")
-            | Experience right now (must be smaller or equal maximum experience)
-        input(id="e_experience",data-ng-model="exercise.training.experience", type="number", ng-required=true)
+
+        div(data-ng-repeat="h in exercise.history track by $index")
+          label(for="e_history_{{$index}}")
+            | History
+          input(id="e_history_{{$index}}",data-ng-model="exercise.history[$index].date", type="text", ng-required=true)
+          label(for="e_history_experience_{{$index}}")
+            | Experience estimation (must be smaller or equal maximum experience)
+          input(id="e_history_experience_{{$index}}",data-ng-model="exercise.history[$index].experience", type="number", ng-required=true)
+
+
+        label(for="e_remove_history")
+          | remove history with index
+        input(id="e_remove_history", ng-model="remove_history_idx")
+        button(ng-click="remove_history(remove_history_idx)")
+          | remove history at index (starting by 0)
+
 
         br
         br

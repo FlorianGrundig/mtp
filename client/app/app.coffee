@@ -5,7 +5,8 @@ angular.module 'mtpApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ui.slider'
 ]
 .config ($routeProvider, $locationProvider, $httpProvider) ->
   $routeProvider.otherwise redirectTo: '/'

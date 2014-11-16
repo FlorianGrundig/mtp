@@ -1,0 +1,102 @@
+
+.training {
+
+  table.exercise-selection {
+
+    width: 100%;
+
+    tr {
+      &:not(:first-child):hover {
+        background-color: khaki;
+        cursor: pointer;
+      }
+
+      &.selected {
+        background-color: khaki;
+      }
+
+      .right {
+        text-align: right;
+      }
+      td {
+        padding: 10px;
+      }
+    }
+  }
+
+  button.abort {
+    display: block;
+    float: right;
+    cursor: pointer;
+    &:hover {
+      background-color: khaki;
+    }
+  }
+
+  div.training-exercise {
+    border-top: solid 1px;
+
+
+    h1 {
+      text-font: smaller;
+    }
+
+    button {
+      margin-left: 20%;
+      position: relative;
+      width: 60%;
+      font-size: large;
+
+      &:hover {
+        background-color: khaki;
+      }
+    }
+  }
+
+  #cal-heatmap {
+    float: right;
+    padding-top: 20px;
+  }
+
+  .exercise-info {
+    float: left;
+  }
+
+}
+
+
+.q1
+{
+  background-color: #dae289;
+  fill: #dae289
+}
+
+.q2
+{
+  background-color: #cedb9c;
+  fill: #9cc069
+}
+
+.q3
+{
+  background-color: #b5cf6b;
+  fill: #669d45
+}
+
+.q4
+{
+  background-color: #637939;
+  fill: #637939
+}
+
+.q5
+{
+  background-color: #3b6427;
+  fill: #3b6427
+}
+
+
+#cal-heatmap {
+  float: right;
+  padding-top: 20px;
+}

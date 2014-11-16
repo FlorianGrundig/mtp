@@ -6,11 +6,13 @@ nav.navbar(ng-controller='NavbarCtrl')
             li(ng-class="{active: activeMenuEntry === 'home'}", data-ng-click="setActiveMenuEntry('home')")
                 a(data-ng-show="isLoggedIn()", href="/home") Home
                 a(data-ng-hide="isLoggedIn()", href="/") Home
+            li(ng-class="{active: activeMenuEntry === 'training'}", data-ng-click="setActiveMenuEntry('training')", data-ng-show="isLoggedIn()")
+                a(href="/training") Training
             li(ng-class="{active: activeMenuEntry === 'about'}", data-ng-click="setActiveMenuEntry('about')")
                 a(href="/about") About
             li(ng-class="{active: activeMenuEntry === 'settings'}", data-ng-click="setActiveMenuEntry('settings')", data-ng-show="isLoggedIn()")
                 a(href="/settings") Settings
-            li(data-ng-class="{active: activeMenuEntry === 'login'}", data-ng-click="setActiveMenuEntry('login')")
+            li(ng-class="{active: activeMenuEntry === 'login'}", data-ng-click="setActiveMenuEntry('login')")
                 a(data-ng-hide="isLoggedIn()", href="/login") Login
                 a(data-ng-show="isLoggedIn()", href="javascript:void(0)", data-ng-click="logout()") Logout
 

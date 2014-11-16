@@ -13,19 +13,23 @@ angular.module 'mtpApp'
     hints: "a hint"
     level: 10
     duration: 3
-    max_experience: 100
+    max_experience: 5
     replay: 3
-    training:
-      times: 0
-      experience: 1
+    history: []
 
   $scope.exercise = angular.copy default_new_execise
 
 
   matchingCategory = (id) ->
+    id = id['_id'] || id
     for i in [0..$scope.categories.length]
       return $scope.categories[i] if $scope.categories[i]._id is id
 
+  $scope.remove_cat = (idx) ->
+    $scope.exercise.categories.splice(idx, 1)
+
+  $scope.remove_history = (idx) ->
+    $scope.exercise.history.splice(idx, 1)
 
   $scope.edit = (exercise) ->
     cats = []
