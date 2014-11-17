@@ -61,14 +61,14 @@ angular.module 'mtpApp'
 
         if (stats[entryDate])
           stats[entryDate].counter++
-          stats[entryDate].sum += e.experience
+          stats[entryDate].sum = stats[entryDate].sum +  e.experience
         else
           stats[entryDate] = {}
           stats[entryDate].counter = 1
           stats[entryDate].sum = e.experience
 
       for k,stat of stats
-        average = stat.sum / stat.counter
+        average = Math.round(stat.sum / stat.counter)
         result[new Date(k).getTime() / 1000] = average
     result
 

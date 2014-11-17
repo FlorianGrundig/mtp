@@ -14,8 +14,8 @@ header#banner.hero-unit
         tr(data-ng-repeat="e in exercises", ng-click="selectExercise(e)", ng-class="{selected: e == exercise}")
           td {{e.name}}
           td.right {{e.level}}
-          td {{e.replay}} x {{e.duration}} min
-          td {{getProgress(e)}}
+          td.right {{e.replay}} x {{e.duration}} min
+          td.right {{getProgress(e)}}
           td.right {{e.history.length}}
 
     button(ng-show="exercise", class="abort",ng-click="exercise = undefined") Go Back
