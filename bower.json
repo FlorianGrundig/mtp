@@ -13,7 +13,8 @@
     "font-awesome": ">=4.1.0",
     "lodash": "~2.4.1",
     "angular-slider": "git@github.com:PopSugar/angular-slider.git#acdf0cbc85186b2f2a487e4fe9d0f9625cb44bfc",
-    "cal-heatmap": "~3.5.0"
+    "cal-heatmap": "~3.5.0",
+    "angular-ui-router": "~0.2.12"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

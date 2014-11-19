@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'mtpApp'
-.controller 'LoginCtrl', ($scope, Auth, $location, $window) ->
+.controller 'LoginCtrl', ($scope, Auth, $state, $window) ->
   $scope.user = {}
   $scope.errors = {}
 
@@ -18,7 +18,7 @@ angular.module 'mtpApp'
         password: $scope.user.password
 
       .then ->
-        $location.path '/home'
+        $state.go "home"
 
       .catch (err) ->
         $scope.errors.other = err.message

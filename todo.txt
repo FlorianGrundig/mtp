@@ -1,0 +1,1 @@
+- use angular ui-router to have states for your url -> browser history and back button are working -> better REST api

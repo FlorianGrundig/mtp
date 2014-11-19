@@ -4,12 +4,12 @@ angular.module 'mtpApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute',
+  'ui.router',
   'ui.bootstrap',
-  'ui.slider'
-]
-.config ($routeProvider, $locationProvider, $httpProvider) ->
-  $routeProvider.otherwise redirectTo: '/'
+  'ui.slider']
+
+.config ($urlRouterProvider, $locationProvider, $httpProvider) ->
+  $urlRouterProvider.otherwise '/'
 
   $locationProvider.html5Mode true
   $httpProvider.interceptors.push 'authInterceptor'
@@ -30,8 +30,10 @@ angular.module 'mtpApp', [
 
     $q.reject response
 
-.run ($rootScope, $location, Auth) ->
+.run ($rootScope, $state, Auth) ->
   # Redirect to login if route requires auth and you're not logged in
-  $rootScope.$on '$routeChangeStart', (event, next) ->
+  $rootScope.$on '$stateChangeStart', (event, next) ->
     Auth.isLoggedInAsync (loggedIn) ->
-      $location.path "/login" if next.authenticate and not loggedIn
+      if next.authenticate and not loggedIn
+        event.preventDefault();
+        $state.go "login"

@@ -1,16 +1,19 @@
 'use strict'
 
 angular.module 'mtpApp'
-.config ($routeProvider) ->
-  $routeProvider
-  .when '/login',
+.config ($stateProvider) ->
+  $stateProvider
+  .state 'login',
+    url: '/login'
     templateUrl: 'app/account/login/login.template.html'
 
-  .when '/signup',
+  .state 'signup',
+    url: '/signup'
     templateUrl: 'app/account/signup/signup.template.html'
     controller: 'SignupCtrl'
 
-  .when '/settings',
+  .state 'settings',
+    url: '/settings'
     templateUrl: 'app/account/settings/settings.template.html'
     controller: 'SettingsCtrl'
     authenticate: true

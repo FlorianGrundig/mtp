@@ -1,8 +1,9 @@
 'use strict'
 
 angular.module 'mtpApp'
-.config ($routeProvider) ->
-  $routeProvider
-  .when '/',
+.config ($stateProvider) ->
+  $stateProvider
+  .state 'main',
     templateUrl: 'app/main/main.template.html'
     controller: 'MainCtrl'
+    url: '/'

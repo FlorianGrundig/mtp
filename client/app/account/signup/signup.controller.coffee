@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'mtpApp'
-.controller 'SignupCtrl', ($scope, Auth, $location, $window) ->
+.controller 'SignupCtrl', ($scope, Auth, $state, $window) ->
   $scope.user = {}
   $scope.errors = {}
   $scope.register = (form) ->
@@ -15,7 +15,7 @@ angular.module 'mtpApp'
         password: $scope.user.password
 
       .then ->
-        $location.path '/home'
+        $state.go 'home'
 
       .catch (err) ->
         err = err.data
@@ -26,5 +26,3 @@ angular.module 'mtpApp'
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
 
-  $scope.loginOauth = (provider) ->
-    $window.location.href = '/auth/' + provider
