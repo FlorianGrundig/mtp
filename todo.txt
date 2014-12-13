@@ -1,1 +1,8 @@
 - use angular ui-router to have states for your url -> browser history and back button are working -> better REST api
+  - use state links for navigation bar
+- training overview should be splitted up into serveral parts which should be reflected by the url (state):
+  - parent
+    - selectable categories
+    - timer start/stop
+  - manuel training
+  - trainer

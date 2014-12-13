@@ -1,17 +1,18 @@
+var transformatorForClient = require('./exercise.transform');
 var Exercise = require('./exercise.model');
 
 'use strict';
 
 exports.index = function (req, res) {
-  Exercise.find({'email': req.user.email}, function (err, categories) {
+  Exercise.find({'email': req.user.email}, function (err, exercises) {
     if (err) {
       return handleError(res, err);
     }
-    return res.json(200, categories);
+
+    return res.json(200, transformatorForClient.transformForOverview(exercises));
   });
 };
 
-// Creates a new thing in the DB.`
 exports.upsert = function (req, res) {
   var exercise = new Exercise(req.body);
 
@@ -48,6 +49,25 @@ exports.upsert = function (req, res) {
   }
 };
 
+
+/**
+ * Get a single exercise
+ */
+exports.show = function (req, res, next) {
+  var userId = req.params.id;
+
+  if (!userId){
+    res.send(400);
+    return;
+  }
+
+  Exercise.findById(userId, function (err, exercise_db) {
+    if (err) return handleError(req,err);
+    if (!exercise_db) return res.send(401);
+    res.json(exercise_db);
+  });
+
+};
 
 function handleError(res, err) {
   return res.send(500, err);

@@ -1,0 +1,18 @@
+
+header#banner.hero-unit
+  .container.training
+    h1 Training
+    a(ui-sref="training.overview", class='abort') Go Back
+    div.training-exercise
+      h1 {{exercise.name}}
+      div.exercise-info
+        p Source: {{exercise.source}}
+        p Play: {{exercise.replay}} x {{exercise.duration}} min
+        p {{exercise.hints}}
+      div(id="cal-heatmap")
+
+      slider(floor="0", ceiling="{{exercise.max_experience}}", ng-model="experience")
+      button(class="submit",ng-click="exercise_done(exercise)") I played this exercise one time and I've updated the progress.
+
+
+

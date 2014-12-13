@@ -7,12 +7,12 @@ angular.module 'mtpApp'
   $scope.categories = CategoryService.list()
   $scope.exercises = ExerciseService.list()
   default_new_execise =
-    name: 'E1'
+    name: ''
     categories: ['']
-    source: 'any source'
-    hints: "a hint"
-    level: 10
-    duration: 3
+    source: ''
+    hints: ""
+    level: 1
+    duration: 1
     max_experience: 5
     replay: 3
     history: []

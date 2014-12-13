@@ -7,7 +7,7 @@ nav.navbar(ng-controller='NavbarCtrl')
                 a(data-ng-show="isLoggedIn()", href="/home") Home
                 a(data-ng-hide="isLoggedIn()", href="/") Home
             li(ng-class="{active: activeMenuEntry === 'training'}", data-ng-click="setActiveMenuEntry('training')", data-ng-show="isLoggedIn()")
-                a(href="/training") Training
+                a(href="/training/overview") Training
             li(ng-class="{active: activeMenuEntry === 'about'}", data-ng-click="setActiveMenuEntry('about')")
                 a(href="/about") About
             li(ng-class="{active: activeMenuEntry === 'settings'}", data-ng-click="setActiveMenuEntry('settings')", data-ng-show="isLoggedIn()")
