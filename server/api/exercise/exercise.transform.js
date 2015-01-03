@@ -20,6 +20,7 @@ exports.transformForOverview = function (exercises) {
 
     exercises.forEach(function(e){
       result.push({
+        _id: e.id,
         name: e.name,
         level: e.level,
         replay: e.replay,
