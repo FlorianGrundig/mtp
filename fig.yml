@@ -1,0 +1,25 @@
+web:
+  build: .
+  volumes:
+    - /Users/flg/code/mtp/dist/server/:/usr/src/mtp/server
+    - /Users/flg/code/mtp/dist/public/:/usr/src/mtp/public
+  ports:
+    - "9000:9000"
+  environment:
+    - NODE_ENV=production
+    - IP=0.0.0.0
+    - PORT=9000
+  links:
+    - db
+
+
+db:
+  image: dockerfile/mongodb
+  ports:
+    - "27017:27017"
+    - "28017:28017"
+  expose:
+    - "27017"
+    - "28017"
+
+
